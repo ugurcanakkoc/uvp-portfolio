@@ -27,7 +27,7 @@ export function ProjectGallery({ projects }: ProjectGalleryProps) {
 
     return (
         <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 h-full">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 h-full">
                 {projects.map((project, idx) => (
                     <ProjectCard
                         key={project.id}
@@ -42,7 +42,7 @@ export function ProjectGallery({ projects }: ProjectGalleryProps) {
                 <Lightbox
                     open={lightboxOpen}
                     close={() => setLightboxOpen(false)}
-                    slides={activeProject.images.map((src) => ({ src, title: activeProject.title, description: activeProject.description }))}
+                    slides={activeProject.images.map((src) => ({ src }))}
                     plugins={[Zoom, Captions, Thumbnails]}
                     styles={{
                         container: { backgroundColor: "rgba(0, 0, 0, .95)" },

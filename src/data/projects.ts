@@ -27,11 +27,11 @@ export const projects: Project[] = [
         images: [
             "/images/kapak/e500_kapak.png",
             "/images/E500/E500_1.png",
-            "/images/E500/=+ (1)_2.png",
-            "/images/E500/=+ (1)_3.png",
-            "/images/E500/=+ (1)_4.png",
-            "/images/E500/=+ (1)_5.png",
-            "/images/E500/=+ (1)_6.png"
+            "/images/E500/e500_2.png",
+            "/images/E500/e500_3.png",
+            "/images/E500/e500_4.png",
+            "/images/E500/e500_5.png",
+            "/images/E500/e500_6.png"
         ],
         specs: {
             type: "Energieverteilung"
@@ -44,10 +44,10 @@ export const projects: Project[] = [
         thumbnail: "/images/kapak/j1_kapak.png",
         images: [
             "/images/kapak/j1_kapak.png",
-            "/images/J1/MB17_014_1 (1)_1.png",
-            "/images/J1/MB17_014_1 (1)_2.png",
-            "/images/J1/MB17_014_1 (1)_3.png",
-            "/images/J1/MB17_014_1 (1)_4.png"
+            "/images/J1/j1_1.png",
+            "/images/J1/j1_2.png",
+            "/images/J1/j1_3.png",
+            "/images/J1/j1_4.png"
         ],
         specs: {
             type: "Anschlusslösung"

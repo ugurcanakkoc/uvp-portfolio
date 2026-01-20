@@ -20,7 +20,7 @@ export default function Home() {
       <div className="fixed inset-0 pointer-events-none spotlight-global z-0" />
 
       {/* Title / Info Bar */}
-      <div className="flex-grow flex flex-col px-6 md:px-12 z-10 max-w-screen-2xl mx-auto w-full">
+      <div className="flex-grow flex flex-col px-6 md:px-12 z-10 max-w-[1850px] mx-auto w-full">
         <div className="flex justify-between items-end py-8 md:py-16">
           <div className="flex flex-col gap-2 md:gap-4">
             <span className="luxury-heading text-[8px] md:text-[10px]">SCHALTSCHRANKBAU LÖSUNGEN</span>
