@@ -30,7 +30,7 @@ export function ProjectCard({ project, onClick, index }: ProjectCardProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: index * 0.1 }}
-            className="relative w-full h-full group cursor-pointer overflow-hidden border border-white/5 bg-[#0a0a0a]"
+            className="relative w-full aspect-video lg:aspect-auto lg:h-full group cursor-pointer overflow-hidden border border-white/5 bg-[#0a0a0a] rounded-sm transition-all duration-500 hover:border-white/20"
             onMouseMove={handleMouseMove}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
@@ -41,28 +41,37 @@ export function ProjectCard({ project, onClick, index }: ProjectCardProps) {
                 src={project.thumbnail}
                 alt={project.title}
                 fill
-                className="object-contain object-center transition-all duration-1000 opacity-40 grayscale scale-100 group-hover:opacity-100 group-hover:grayscale-0 group-hover:scale-105"
-                sizes="25vw"
+                className="object-contain object-center transition-all duration-1000 opacity-60 grayscale scale-100 group-hover:opacity-100 group-hover:grayscale-0 group-hover:scale-110"
+                sizes="(max-width: 768px) 100vw, 25vw"
             />
+
+            {/* Glass Overlay on Hover */}
+            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-1" />
 
             {/* Dynamic Lighting Overlay */}
             <div
                 className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-10"
                 style={{
-                    background: `radial-gradient(600px circle at ${mousePos.x}% ${mousePos.y}%, rgba(255,255,255,0.08), transparent 40%)`
+                    background: `radial-gradient(400px circle at ${mousePos.x}% ${mousePos.y}%, rgba(255,255,255,0.12), transparent 60%)`
                 }}
             />
 
-            <div className="absolute inset-0 opacity-[0.03] pointer-events-none"
-                style={{ backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
+            {/* Subtle Grid Pattern overlay */}
+            <div className="absolute inset-0 opacity-[0.02] pointer-events-none"
+                style={{ backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
 
-            <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10 z-20">
-                <h3 className="text-lg md:text-xl font-bold tracking-widest uppercase text-white transform transition-transform duration-500 group-hover:-translate-y-2">
-                    {project.title}
-                </h3>
-                <div className="h-[1px] w-0 bg-white transition-all duration-700 group-hover:w-full mt-2" />
-                <p className="mt-4 text-[9px] text-neutral-500 font-medium tracking-[0.3em] uppercase opacity-0 group-hover:opacity-100 transition-all duration-700 delay-100">
-                    {project.specs?.type} // Details ansehen
+            <div className="absolute bottom-0 left-0 right-0 p-5 md:p-8 z-20">
+                <div className="flex flex-col gap-1">
+                    <span className="text-[9px] text-neutral-500 tracking-[0.4em] font-medium uppercase opacity-0 group-hover:opacity-100 transition-all duration-700 translate-y-2 group-hover:translate-y-0">
+                        {project.specs?.type}
+                    </span>
+                    <h3 className="text-sm md:text-base lg:text-lg font-black tracking-[0.2em] uppercase text-white transform transition-all duration-500 group-hover:tracking-[0.3em]">
+                        {project.title}
+                    </h3>
+                </div>
+                <div className="h-[1px] w-0 bg-white/40 transition-all duration-1000 group-hover:w-full mt-3" />
+                <p className="mt-3 text-[8px] text-neutral-400 font-bold tracking-[0.5em] uppercase opacity-0 group-hover:opacity-100 transition-all duration-700 delay-100 italic">
+                    PROJECT // DETAIL
                 </p>
             </div>
         </motion.div>

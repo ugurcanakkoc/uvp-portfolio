@@ -6,17 +6,24 @@
 
 @layer base {
   body {
-    @apply selection:bg-white/20 selection:text-white bg-[#050505] text-white h-screen overflow-hidden antialiased font-sans;
+    @apply selection:bg-white/20 selection:text-white bg-[#050505] text-white min-h-screen antialiased font-sans overflow-x-hidden;
+  }
+
+  /* Desktop Dashboard Fixed Layout */
+  @media (min-width: 1024px) {
+    body {
+      @apply h-screen overflow-hidden;
+    }
   }
 }
 
 @layer utilities {
   .smoke-bg {
     background:
-      radial-gradient(circle at 50% 50%, #111111 0%, #050505 100%),
-      radial-gradient(circle at 20% 30%, #1a1a1a 0%, transparent 40%),
-      radial-gradient(circle at 80% 70%, #151515 0%, transparent 40%);
-    background-blend-mode: screen;
+      radial-gradient(circle at 50% 50%, #0d0d0d 0%, #050505 100%),
+      radial-gradient(circle at 20% 30%, #171717 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, #121212 0%, transparent 50%);
+    background-attachment: fixed;
   }
 
   .spotlight-global {
