@@ -26,8 +26,8 @@
         },
         "stats": {
             "panels": {
-                "value": 200,
-                "suffix": "+",
+                "value": 1000,
+                "suffix": "m+",
                 "label": "Schränke / Jahr"
             },
             "experience": {

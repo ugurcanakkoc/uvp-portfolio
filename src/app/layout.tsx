@@ -24,7 +24,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="tr" className="scroll-smooth">
+    <html lang="de" className="scroll-smooth">
       <body className={`${inter.className} bg-black text-white min-h-screen flex flex-col antialiased selection:bg-blue-500/20`}>
         <Script
           src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"
