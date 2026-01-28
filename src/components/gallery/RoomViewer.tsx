@@ -107,7 +107,7 @@ export default function RoomViewer({ modelUrl }: RoomViewerProps) {
             if (pickResult.hit && pickResult.pickedMesh && pickResult.pickedMesh.name === "ground") {
                 const target = pickResult.pickedPoint;
                 if (target) {
-                    BABYLON.Animation.CreateAndStopAnimation(
+                    BABYLON.Animation.CreateAndStartAnimation(
                         "teleport",
                         camera,
                         "position",
