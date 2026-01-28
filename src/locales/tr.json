@@ -49,9 +49,25 @@
         "title": "3D MODEL İNCELEME",
         "interactive": "İnteraktif Görünüm",
         "controls": {
+            "title": "Kontroller",
             "rotate": "Döndür",
             "zoom": "Yakınlaştır",
-            "move": "Kaydır"
+            "move": "Kaydır",
+            "autoRotate": "Dönüyor",
+            "static": "Sabit",
+            "close": "Kapat",
+            "reset": "Sıfırla"
+        },
+        "error": "Model Hatası",
+        "alt": "3D Model",
+        "help": {
+            "title": "Nasıl Kullanılır?",
+            "rotate": "Döndürme",
+            "rotateDesc": "Sol tık basılı tutun ve sürükleyin.",
+            "pan": "Kaydırma",
+            "panDesc": "Sağ tık (veya Shift + Sol tık) basılı tutun.",
+            "zoom": "Yakınlaşma",
+            "zoomDesc": "Mouse tekerleğini kullanın."
         }
     },
     "projects": {

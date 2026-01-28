@@ -11,8 +11,8 @@ import Script from "next/script";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "UVP Pano Montajı | Dijital İkiz & AI Mühendislik",
-  description: "Endüstriyel pano montajında AI destekli Dijital İkiz (Digital Twin) teknolojileri ile akıllı çözümler.",
+  title: "UVP Schaltschrankbau | Digitaler Zwilling & KI-Engineering",
+  description: "Intelligente Lösungen im industriellen Schaltschrankbau mit KI-gestützten Technologien für Digitale Zwillinge.",
   icons: {
     icon: "/logo.png",
     apple: "/logo.png",

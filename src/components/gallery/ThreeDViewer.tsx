@@ -65,7 +65,7 @@ export function ThreeDViewer({ src, onClose, title }: ThreeDViewerProps) {
 
         const handleError = (err: any) => {
             console.error("3D Model Load Error:", err);
-            setError(t.common.brand + " - Model Error");
+            setError(t.common.brand + " - " + t.viewer.error);
             setLoading(false);
         };
 
@@ -79,7 +79,7 @@ export function ThreeDViewer({ src, onClose, title }: ThreeDViewerProps) {
                 viewer.removeEventListener('error', handleError);
             }
         };
-    }, [src, t.common.brand, onClose, mounted]);
+    }, [src, t.common.brand, t.viewer.error, onClose, mounted]);
 
     if (!mounted) return null;
 
@@ -107,7 +107,7 @@ export function ThreeDViewer({ src, onClose, title }: ThreeDViewerProps) {
                         className={`hidden md:flex items-center gap-2 px-4 py-2 rounded-sm border transition-all ${showHelp ? 'bg-blue-600/20 border-blue-500 text-blue-400' : 'bg-white/5 border-white/10 text-white/60 hover:text-white'}`}
                     >
                         <Info size={16} />
-                        <span className="text-[10px] font-black tracking-widest uppercase">Kontroller</span>
+                        <span className="text-[10px] font-black tracking-widest uppercase">{t.viewer.controls.title}</span>
                     </button>
 
                     {/* Auto Rotate Toggle */}
@@ -116,7 +116,7 @@ export function ThreeDViewer({ src, onClose, title }: ThreeDViewerProps) {
                         className={`hidden md:flex items-center gap-2 px-4 py-2 rounded-sm border transition-all ${autoRotate ? 'bg-green-600/20 border-green-500 text-green-400' : 'bg-white/5 border-white/10 text-white/60 hover:text-white'}`}
                     >
                         {autoRotate ? <Pause size={14} fill="currentColor" /> : <Play size={14} fill="currentColor" />}
-                        <span className="text-[10px] font-black tracking-widest uppercase">{autoRotate ? 'Dönüyor' : 'Sabit'}</span>
+                        <span className="text-[10px] font-black tracking-widest uppercase">{autoRotate ? t.viewer.controls.autoRotate : t.viewer.controls.static}</span>
                     </button>
 
                     <div className="w-px h-8 bg-white/10 hidden md:block" />
@@ -128,7 +128,7 @@ export function ThreeDViewer({ src, onClose, title }: ThreeDViewerProps) {
                             onClose();
                         }}
                         className="w-14 h-14 flex items-center justify-center bg-white/5 hover:bg-red-600 rounded-sm transition-all text-white border border-white/10 active:scale-95 group cursor-pointer"
-                        title="Close Viewer"
+                        title={t.viewer.controls.close}
                     >
                         <X size={32} className="group-hover:rotate-90 transition-transform duration-300" />
                     </button>
@@ -146,7 +146,7 @@ export function ThreeDViewer({ src, onClose, title }: ThreeDViewerProps) {
                     >
                         <h5 className="text-white font-black uppercase tracking-widest text-xs mb-4 border-b border-white/10 pb-2 flex items-center gap-2">
                             <MousePointer2 size={14} className="text-blue-500" />
-                            Nasıl Kullanılır?
+                            {t.viewer.help.title}
                         </h5>
                         <div className="flex flex-col gap-4">
                             <div className="flex items-center gap-4">
@@ -154,8 +154,8 @@ export function ThreeDViewer({ src, onClose, title }: ThreeDViewerProps) {
                                     <Rotate3d size={16} className="text-white" />
                                 </div>
                                 <div className="flex flex-col">
-                                    <span className="text-[10px] font-black uppercase text-blue-400 tracking-widest">Döndürme (Rotate)</span>
-                                    <span className="text-xs text-neutral-400">Sol tık basılı tutun ve sürükleyin.</span>
+                                    <span className="text-[10px] font-black uppercase text-blue-400 tracking-widest">{t.viewer.help.rotate}</span>
+                                    <span className="text-xs text-neutral-400">{t.viewer.help.rotateDesc}</span>
                                 </div>
                             </div>
                             <div className="flex items-center gap-4">
@@ -163,8 +163,8 @@ export function ThreeDViewer({ src, onClose, title }: ThreeDViewerProps) {
                                     <Hand size={16} className="text-white" />
                                 </div>
                                 <div className="flex flex-col">
-                                    <span className="text-[10px] font-black uppercase text-blue-400 tracking-widest">Kaydırma (Pan)</span>
-                                    <span className="text-xs text-neutral-400">Sağ tık (veya Shift + Sol tık) basılı tutun.</span>
+                                    <span className="text-[10px] font-black uppercase text-blue-400 tracking-widest">{t.viewer.help.pan}</span>
+                                    <span className="text-xs text-neutral-400">{t.viewer.help.panDesc}</span>
                                 </div>
                             </div>
                             <div className="flex items-center gap-4">
@@ -172,8 +172,8 @@ export function ThreeDViewer({ src, onClose, title }: ThreeDViewerProps) {
                                     <ChevronUp size={16} className="text-white" />
                                 </div>
                                 <div className="flex flex-col">
-                                    <span className="text-[10px] font-black uppercase text-blue-400 tracking-widest">Yakınlaşma (Zoom)</span>
-                                    <span className="text-xs text-neutral-400">Mouse tekerleğini kullanın.</span>
+                                    <span className="text-[10px] font-black uppercase text-blue-400 tracking-widest">{t.viewer.help.zoom}</span>
+                                    <span className="text-xs text-neutral-400">{t.viewer.help.zoomDesc}</span>
                                 </div>
                             </div>
                         </div>
@@ -208,7 +208,7 @@ export function ThreeDViewer({ src, onClose, title }: ThreeDViewerProps) {
                     <div className="w-px h-10 bg-white/10 mx-2" />
                     <button onClick={() => moveCamera('reset')} className="p-3 bg-blue-600 hover:bg-blue-500 rounded-sm text-white transition-all flex items-center gap-2">
                         <RotateCcw size={16} />
-                        <span className="text-[10px] font-black uppercase tracking-widest hidden sm:block">Reset</span>
+                        <span className="text-[10px] font-black uppercase tracking-widest hidden sm:block">{t.viewer.controls.reset}</span>
                     </button>
 
                     {/* Mobile Only Help Trigger */}
@@ -224,7 +224,7 @@ export function ThreeDViewer({ src, onClose, title }: ThreeDViewerProps) {
                         <ModelViewer
                             ref={viewerRef}
                             src={src}
-                            alt={title || "3D Model"}
+                            alt={title || t.viewer.alt}
                             camera-controls
                             interaction-prompt="none"
                             shadow-intensity="1"

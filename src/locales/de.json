@@ -13,9 +13,9 @@
         "model3d": "3D MODELL"
     },
     "home": {
-        "heroDesc": "Der neue Standard im Schaltschrankbau mit KI-gestütztem Engineering und Digital-Twin-Technologie: Schneller. Intelligenter. Fehlerfrei.",
+        "heroDesc": "Der neue Standard im Schaltschrankbau mit KI-gestütztem Engineering und Technologie des Digitalen Zwillings: Schneller. Intelligenter. Fehlerfrei.",
         "aiFocus": "KI-GESTÜTZT",
-        "digitalTwin": "DIGITAL TWIN KONZEPT",
+        "digitalTwin": "DIGITALER ZWILLING",
         "highlights": {
             "smartControl": "Jährliche Produktionskapazität",
             "smartControlDesc": "KI-optimierte Serienfertigungslinie",
@@ -49,9 +49,25 @@
         "title": "3D MODELL INSPEKTION",
         "interactive": "Interaktive Ansicht",
         "controls": {
+            "title": "Steuerung",
             "rotate": "Drehen",
             "zoom": "Zoomen",
-            "move": "Bewegen"
+            "move": "Bewegen",
+            "autoRotate": "Rotation",
+            "static": "Statisch",
+            "close": "Schließen",
+            "reset": "Reset"
+        },
+        "error": "Modellfehler",
+        "alt": "3D Modell",
+        "help": {
+            "title": "Bedienung",
+            "rotate": "Drehen",
+            "rotateDesc": "Linke Maustaste gedrückt halten.",
+            "pan": "Verschieben",
+            "panDesc": "Rechte Maustaste gedrückt halten.",
+            "zoom": "Zoomen",
+            "zoomDesc": "Mausrad benutzen."
         }
     },
     "projects": {
