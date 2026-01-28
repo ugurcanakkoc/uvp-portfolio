@@ -3,16 +3,15 @@
 import { useEffect, useState, useRef } from "react";
 import Script from "next/script";
 import { X, Loader2, ChevronUp, ChevronDown, ChevronLeft, ChevronRight, RotateCcw } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 interface ThreeDViewerProps {
     src: string;
     onClose: () => void;
     title?: string;
-    forceAR?: boolean;
 }
 
-export function ThreeDViewer({ src, onClose, title, forceAR }: ThreeDViewerProps) {
+export function ThreeDViewer({ src, onClose, title }: ThreeDViewerProps) {
     const [loading, setLoading] = useState(true);
     const viewerRef = useRef<any>(null);
 
@@ -24,7 +23,7 @@ export function ThreeDViewer({ src, onClose, title, forceAR }: ThreeDViewerProps
         let phi = orbit.phi;
         let radius = orbit.radius;
 
-        const step = 0.3; // Değişim miktarı (radyan)
+        const step = 0.3;
 
         if (dir === 'reset') {
             viewerRef.current.cameraOrbit = "0deg 75deg 105%";
@@ -36,9 +35,7 @@ export function ThreeDViewer({ src, onClose, title, forceAR }: ThreeDViewerProps
         if (dir === 'up') phi -= step;
         if (dir === 'down') phi += step;
 
-        // Phi kısıtlaması (takla atmayı önlemek için 0 ile PI arası)
         phi = Math.max(0.01, Math.min(Math.PI - 0.01, phi));
-
         viewerRef.current.cameraOrbit = `${theta}rad ${phi}rad ${radius}m`;
     };
 
@@ -47,13 +44,7 @@ export function ThreeDViewer({ src, onClose, title, forceAR }: ThreeDViewerProps
         if (!viewer) return;
 
         const handleLoad = () => {
-            console.log("Model loaded successfully");
             setLoading(false);
-
-            // Auto-trigger AR if forceAR is true and we're on a mobile device
-            if (forceAR && viewer.canActivateAR) {
-                viewer.activateAR();
-            }
         };
 
         const handleError = (error: any) => {
@@ -68,7 +59,7 @@ export function ThreeDViewer({ src, onClose, title, forceAR }: ThreeDViewerProps
             viewer.removeEventListener('load', handleLoad);
             viewer.removeEventListener('error', handleError);
         };
-    }, [forceAR]);
+    }, []);
 
     return (
         <motion.div
@@ -77,13 +68,11 @@ export function ThreeDViewer({ src, onClose, title, forceAR }: ThreeDViewerProps
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-[9999] flex items-center justify-center p-4 md:p-10"
         >
-            {/* Backdrop */}
             <div
                 className="absolute inset-0 bg-black/80 backdrop-blur-md"
                 onClick={onClose}
             />
 
-            {/* Modal Content */}
             <motion.div
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
@@ -96,7 +85,6 @@ export function ThreeDViewer({ src, onClose, title, forceAR }: ThreeDViewerProps
                     crossOrigin="anonymous"
                 />
 
-                {/* Header */}
                 <div className="flex items-center justify-between p-4 bg-black/50 backdrop-blur-sm border-b border-white/10">
                     <div className="flex flex-col">
                         <h3 className="text-white font-medium leading-none">{title || "3D View"}</h3>
@@ -110,7 +98,6 @@ export function ThreeDViewer({ src, onClose, title, forceAR }: ThreeDViewerProps
                     </button>
                 </div>
 
-                {/* Viewer Area */}
                 <div className="flex-1 relative">
                     {loading && (
                         <div className="absolute inset-0 flex items-center justify-center text-white gap-3 z-10 bg-[#111]">
@@ -119,12 +106,10 @@ export function ThreeDViewer({ src, onClose, title, forceAR }: ThreeDViewerProps
                         </div>
                     )}
 
-                    {/* Manual Controls */}
                     <div className="absolute bottom-4 left-4 z-20 flex flex-col items-center gap-1 bg-black/40 p-2 rounded-xl backdrop-blur-md border border-white/10 shadow-xl">
                         <button
                             onClick={() => moveCamera('up')}
                             className="p-2 hover:bg-white/20 rounded-lg text-white transition-colors"
-                            title="Yukarı"
                         >
                             <ChevronUp size={20} />
                         </button>
@@ -132,21 +117,18 @@ export function ThreeDViewer({ src, onClose, title, forceAR }: ThreeDViewerProps
                             <button
                                 onClick={() => moveCamera('left')}
                                 className="p-2 hover:bg-white/20 rounded-lg text-white transition-colors"
-                                title="Sola"
                             >
                                 <ChevronLeft size={20} />
                             </button>
                             <button
                                 onClick={() => moveCamera('reset')}
                                 className="p-2 bg-blue-600/50 hover:bg-blue-600 rounded-lg text-white transition-colors"
-                                title="Sıfırla"
                             >
                                 <RotateCcw size={16} />
                             </button>
                             <button
                                 onClick={() => moveCamera('right')}
                                 className="p-2 hover:bg-white/20 rounded-lg text-white transition-colors"
-                                title="Sağa"
                             >
                                 <ChevronRight size={20} />
                             </button>
@@ -154,13 +136,11 @@ export function ThreeDViewer({ src, onClose, title, forceAR }: ThreeDViewerProps
                         <button
                             onClick={() => moveCamera('down')}
                             className="p-2 hover:bg-white/20 rounded-lg text-white transition-colors"
-                            title="Aşağı"
                         >
                             <ChevronDown size={20} />
                         </button>
                     </div>
 
-                    {/* Use any to bypass TS check for custom element */}
                     {(() => {
                         const ModelViewer = 'model-viewer' as any;
                         return (

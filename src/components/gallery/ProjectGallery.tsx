@@ -13,8 +13,7 @@ import { Project } from "@/types/project";
 import { ProjectCard } from "./ProjectCard";
 import { ThreeDViewer } from "./ThreeDViewer";
 import { AnimatePresence } from "framer-motion";
-import { Box, Move } from "lucide-react";
-import Link from "next/link";
+import { Box } from "lucide-react";
 
 interface ProjectGalleryProps {
     projects: Project[];
@@ -67,7 +66,7 @@ export function ProjectGallery({ projects }: ProjectGalleryProps) {
                         vignette: false,
                     }}
                     captions={{
-                        showToggle: false, // User wants to replace the toggle button
+                        showToggle: false,
                         descriptionTextAlign: 'center'
                     }}
                     toolbar={{
@@ -86,16 +85,6 @@ export function ProjectGallery({ projects }: ProjectGalleryProps) {
                                 <Box size={20} />
                                 <span className="text-xs font-bold font-sans">3D</span>
                             </button>,
-                            <Link
-                                key="walk-button"
-                                href={`/3d-experience/${activeProject.id}`}
-                                className="yarl__button"
-                                title="Interaktive Begehung"
-                                style={{ display: activeProject.modelUrl ? 'flex' : 'none', alignItems: 'center', gap: '4px', padding: '0 8px', color: '#3b82f6' }}
-                            >
-                                <Move size={20} />
-                                <span className="text-xs font-bold font-sans">SIMULATION</span>
-                            </Link>,
                             "close",
                         ],
                     }}
