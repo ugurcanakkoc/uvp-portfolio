@@ -11,9 +11,6 @@ import "yet-another-react-lightbox/plugins/thumbnails.css";
 
 import { Project } from "@/types/project";
 import { ProjectCard } from "./ProjectCard";
-import { ThreeDViewer } from "./ThreeDViewer";
-import { AnimatePresence } from "framer-motion";
-import { Box } from "lucide-react";
 
 interface ProjectGalleryProps {
     projects: Project[];
@@ -22,7 +19,6 @@ interface ProjectGalleryProps {
 export function ProjectGallery({ projects }: ProjectGalleryProps) {
     const [lightboxOpen, setLightboxOpen] = useState(false);
     const [activeProject, setActiveProject] = useState<Project | null>(null);
-    const [show3D, setShow3D] = useState(false);
 
     const openLightbox = (project: Project) => {
         setActiveProject(project);
@@ -69,39 +65,8 @@ export function ProjectGallery({ projects }: ProjectGalleryProps) {
                         showToggle: false,
                         descriptionTextAlign: 'center'
                     }}
-                    toolbar={{
-                        buttons: [
-                            <button
-                                key="3d-button"
-                                type="button"
-                                className="yarl__button"
-                                onClick={() => {
-                                    setShow3D(true);
-                                    setLightboxOpen(false);
-                                }}
-                                title="3D View"
-                                style={{ display: activeProject.modelUrl ? 'flex' : 'none', alignItems: 'center', gap: '4px', padding: '0 8px' }}
-                            >
-                                <Box size={20} />
-                                <span className="text-xs font-bold font-sans">3D</span>
-                            </button>,
-                            "close",
-                        ],
-                    }}
                 />
             )}
-
-            <AnimatePresence>
-                {show3D && activeProject?.modelUrl && (
-                    <ThreeDViewer
-                        src={activeProject.modelUrl}
-                        onClose={() => {
-                            setShow3D(false);
-                        }}
-                        title={activeProject.title}
-                    />
-                )}
-            </AnimatePresence>
         </>
     );
 }

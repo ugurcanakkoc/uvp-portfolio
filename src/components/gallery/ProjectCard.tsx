@@ -60,12 +60,6 @@ export function ProjectCard({ project, onClick, index }: ProjectCardProps) {
             <div className="absolute inset-0 opacity-[0.02] pointer-events-none"
                 style={{ backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
 
-            {project.modelUrl && (
-                <div className="absolute top-4 right-4 z-30 px-2 py-1 bg-blue-600/20 backdrop-blur-md border border-blue-500/30 rounded text-blue-400 text-[10px] font-black tracking-widest uppercase pointer-events-none">
-                    3D Ready
-                </div>
-            )}
-
             <div className="absolute bottom-0 left-0 right-0 p-5 md:p-8 z-20">
                 <h3 className="text-sm md:text-base lg:text-lg font-black tracking-[0.2em] uppercase text-white transform transition-all duration-500 group-hover:tracking-[0.3em]">
                     {project.title}
