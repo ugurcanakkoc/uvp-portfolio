@@ -1,0 +1,79 @@
+{
+    "common": {
+        "brand": "UVP SCHALTSCHRANKBAU",
+        "examples": "PROJEKT-PORTFOLIO",
+        "excellence": "FUTURE",
+        "precision": "ENGINEERING",
+        "allRights": "ALLE RECHTE VORBEHALTEN",
+        "ready": "AKTIV",
+        "loading": "Laden...",
+        "category": "Technologie",
+        "standard": "Industriell",
+        "photo": "FOTO",
+        "model3d": "3D MODELL"
+    },
+    "home": {
+        "heroDesc": "Der neue Standard im Schaltschrankbau mit KI-gestütztem Engineering und Digital-Twin-Technologie: Schneller. Intelligenter. Fehlerfrei.",
+        "aiFocus": "KI-GESTÜTZT",
+        "digitalTwin": "DIGITAL TWIN KONZEPT",
+        "highlights": {
+            "smartControl": "Jährliche Produktionskapazität",
+            "smartControlDesc": "KI-optimierte Serienfertigungslinie",
+            "safety": "Branchenerfahrung",
+            "safetyDesc": "Expertise in der Industrieautomation und Energie",
+            "efficiency": "Digitaler Workflow",
+            "efficiencyDesc": "Papierlose, fehlerfreie und vollständig rückverfolgbare Produktion"
+        },
+        "stats": {
+            "panels": {
+                "value": 200,
+                "suffix": "+",
+                "label": "Schränke / Jahr"
+            },
+            "experience": {
+                "value": 20,
+                "suffix": "+",
+                "label": "Jahre Erfahrung"
+            },
+            "digital": {
+                "value": 100,
+                "suffix": "%",
+                "label": "Digitalisierung"
+            }
+        },
+        "taglineSmall": "INDUSTRIESTANDARD",
+        "taglineBig": "PRÄZISION. QUALITÄT. VERTRAUEN.",
+        "cta": "Nutzen Sie schon heute die Technologie von morgen für Ihre Schaltschrank-Projekte."
+    },
+    "viewer": {
+        "title": "3D MODELL INSPEKTION",
+        "interactive": "Interaktive Ansicht",
+        "controls": {
+            "rotate": "Drehen",
+            "zoom": "Zoomen",
+            "move": "Bewegen"
+        }
+    },
+    "projects": {
+        "e210": {
+            "title": "SCHALTSCHRANK 1",
+            "description": "",
+            "type": ""
+        },
+        "e500": {
+            "title": "SCHALTSCHRANK 2",
+            "description": "",
+            "type": ""
+        },
+        "j1": {
+            "title": "SCHALTSCHRANK 3",
+            "description": "",
+            "type": ""
+        },
+        "mcc1": {
+            "title": "SCHALTSCHRANK 4",
+            "description": "",
+            "type": ""
+        }
+    }
+}

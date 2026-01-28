@@ -1,53 +1,94 @@
 "use client";
 
-import Link from "next/link";
+import { useTranslation } from "@/lib/i18n";
+import { Globe, Menu, X, ArrowUpRight } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export function Header() {
+    const { t, lang, setLang } = useTranslation();
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+    const toggleLang = () => {
+        setLang(lang === 'tr' ? 'de' : 'tr');
+    };
+
     return (
-        <header className="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-xl py-8 px-6 md:px-12 border-b border-white/5">
-            <div className="flex justify-between items-center max-w-screen-2xl mx-auto">
-                <div className="flex items-center gap-6">
-                    <a
-                        href="https://www.jwf.com/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="transition-opacity opacity-80 hover:opacity-100"
-                    >
-                        <Image
-                            src="/jwf-logo.svg"
-                            alt="JWF Logo"
-                            width={180}
-                            height={40}
-                            className="h-12 md:h-14 w-auto object-contain"
-                            priority
-                        />
-                    </a>
+        <header className="fixed top-0 left-0 right-0 z-[100] py-6 px-6 md:px-12">
+            <div className="max-w-[1920px] mx-auto">
+                <div className="flex justify-between items-center bg-black/40 backdrop-blur-2xl border border-white/5 p-6 rounded-sm shadow-2xl relative overflow-hidden group">
 
-                    <div className="w-px h-14 bg-white/40 hidden md:block" />
+                    {/* Logo Section - Dual Brand */}
+                    <div className="flex items-center gap-8 relative z-10">
+                        {/* UVP Logo - Enlarged */}
+                        <div className="relative group/logo w-48 md:w-64 h-12 md:h-16">
+                            <Image
+                                src="/logo.png"
+                                alt="UVP Schaltschrankbau"
+                                fill
+                                className="object-contain object-left"
+                            />
+                        </div>
+                    </div>
 
-                    <a
-                        href="https://uvp-schaltschrankbau.de/"
-                        target="_blank"
-                        rel="noopener noreferrer"
+                    {/* Right Actions */}
+                    <div className="hidden lg:flex items-center gap-12 relative z-10">
+                        {/* Navigation / Text */}
+                        <span className="text-xs font-black tracking-widest text-white uppercase">
+                            {t.common.examples || "PROJE PORTFÖYÜ"}
+                        </span>
+
+                        {/* Controls */}
+                        <div className="flex items-center gap-6 pl-8 border-l border-white/10">
+                            {/* Language Switcher */}
+                            <button
+                                onClick={toggleLang}
+                                className="flex items-center gap-3 group/lang"
+                            >
+                                <span className={`text-xs font-black tracking-widest ${lang === 'tr' ? 'text-white' : 'text-neutral-500'} group-hover/lang:text-white transition-colors`}>TR</span>
+                                <div className="w-8 h-4 rounded-full border border-white/20 relative p-0.5">
+                                    <div className={`w-2.5 h-2.5 bg-blue-500 rounded-full transition-all duration-300 ${lang === 'de' ? 'translate-x-4' : 'translate-x-0'}`} />
+                                </div>
+                                <span className={`text-xs font-black tracking-widest ${lang === 'de' ? 'text-white' : 'text-neutral-500'} group-hover/lang:text-white transition-colors`}>DE</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Mobile Menu Toggle */}
+                    <button
+                        className="lg:hidden relative z-10 p-2 text-white"
+                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                     >
-                        <Image
-                            src="/logo.png"
-                            alt="UVP Logo"
-                            width={240}
-                            height={80}
-                            className="h-12 md:h-16 w-auto object-contain"
-                            priority
-                        />
-                    </a>
-                </div>
-                <div className="flex gap-12 items-center">
-                    <nav className="flex gap-8">
-                        <Link href="/" className="text-[12px] font-bold tracking-[0.3em] text-white uppercase hover:text-neutral-400 transition-colors">Beispiele</Link>
-                    </nav>
-                    <span className="text-[12px] font-bold tracking-[0.4em] text-neutral-600 uppercase">2026</span>
+                        {isMobileMenuOpen ? <X /> : <Menu />}
+                    </button>
                 </div>
             </div>
+
+            {/* Mobile Menu Overlay */}
+            <AnimatePresence>
+                {isMobileMenuOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        className="absolute top-full left-6 right-6 mt-2 bg-black border border-white/10 p-6 rounded-sm flex flex-col gap-6 lg:hidden shadow-2xl z-50"
+                    >
+                        <button
+                            onClick={toggleLang}
+                            className="flex items-center justify-between w-full p-4 bg-white/5 rounded-sm"
+                        >
+                            <span className="text-sm font-bold text-neutral-400">LANGUAGE</span>
+                            <div className="flex items-center gap-3">
+                                <span className={lang === 'tr' ? 'text-white' : 'text-neutral-600'}>TR</span>
+                                <span className="text-neutral-600">/</span>
+                                <span className={lang === 'de' ? 'text-white' : 'text-neutral-600'}>DE</span>
+                            </div>
+                        </button>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </header>
     );
 }

@@ -15,4 +15,5 @@ export interface Project {
     date?: string;
     client?: string;
     modelUrl?: string;
+    type?: string;
 }

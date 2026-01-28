@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import Script from "next/script";
-import { X, Loader2, ChevronUp, ChevronDown, ChevronLeft, ChevronRight, RotateCcw } from "lucide-react";
-import { motion } from "framer-motion";
+import { createPortal } from "react-dom";
+import { X, Loader2, ChevronUp, ChevronDown, ChevronLeft, ChevronRight, RotateCcw, AlertCircle, Box, Info, MousePointer2, Hand, Rotate3d, Play, Pause } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useTranslation } from "@/lib/i18n";
 
 interface ThreeDViewerProps {
     src: string;
@@ -12,43 +13,59 @@ interface ThreeDViewerProps {
 }
 
 export function ThreeDViewer({ src, onClose, title }: ThreeDViewerProps) {
+    const { t } = useTranslation();
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [mounted, setMounted] = useState(false);
+    const [showHelp, setShowHelp] = useState(false);
+    const [autoRotate, setAutoRotate] = useState(false); // Default to false (stable)
     const viewerRef = useRef<any>(null);
+
+    useEffect(() => {
+        setMounted(true);
+        document.body.style.overflow = 'hidden';
+        return () => {
+            setMounted(false);
+            document.body.style.overflow = 'unset';
+        };
+    }, []);
 
     const moveCamera = (dir: 'up' | 'down' | 'left' | 'right' | 'reset') => {
         if (!viewerRef.current) return;
-
         const orbit = viewerRef.current.getCameraOrbit();
         let theta = orbit.theta;
         let phi = orbit.phi;
         let radius = orbit.radius;
-
         const step = 0.3;
-
         if (dir === 'reset') {
             viewerRef.current.cameraOrbit = "0deg 75deg 105%";
             return;
         }
-
         if (dir === 'left') theta -= step;
         if (dir === 'right') theta += step;
         if (dir === 'up') phi -= step;
         if (dir === 'down') phi += step;
-
         phi = Math.max(0.01, Math.min(Math.PI - 0.01, phi));
         viewerRef.current.cameraOrbit = `${theta}rad ${phi}rad ${radius}m`;
     };
 
     useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === "Escape") onClose();
+        };
+        window.addEventListener("keydown", handleKeyDown);
+
         const viewer = viewerRef.current;
         if (!viewer) return;
 
         const handleLoad = () => {
             setLoading(false);
+            setError(null);
         };
 
-        const handleError = (error: any) => {
-            console.error("Model viewer error:", error);
+        const handleError = (err: any) => {
+            console.error("3D Model Load Error:", err);
+            setError(t.common.brand + " - Model Error");
             setLoading(false);
         };
 
@@ -56,126 +73,180 @@ export function ThreeDViewer({ src, onClose, title }: ThreeDViewerProps) {
         viewer.addEventListener('error', handleError);
 
         return () => {
-            viewer.removeEventListener('load', handleLoad);
-            viewer.removeEventListener('error', handleError);
+            window.removeEventListener("keydown", handleKeyDown);
+            if (viewer) {
+                viewer.removeEventListener('load', handleLoad);
+                viewer.removeEventListener('error', handleError);
+            }
         };
-    }, []);
+    }, [src, t.common.brand, onClose, mounted]);
 
-    return (
+    if (!mounted) return null;
+
+    const viewerContent = (
         <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[9999] flex items-center justify-center p-4 md:p-10"
+            className="fixed inset-0 z-[99999] flex items-center justify-center bg-black"
         >
-            <div
-                className="absolute inset-0 bg-black/80 backdrop-blur-md"
-                onClick={onClose}
-            />
-
-            <motion.div
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.9, opacity: 0 }}
-                className="relative w-full max-w-5xl h-[80vh] bg-[#111] rounded-2xl overflow-hidden border border-white/10 shadow-2xl flex flex-col"
-            >
-                <Script
-                    src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"
-                    type="module"
-                    crossOrigin="anonymous"
-                />
-
-                <div className="flex items-center justify-between p-4 bg-black/50 backdrop-blur-sm border-b border-white/10">
-                    <div className="flex flex-col">
-                        <h3 className="text-white font-medium leading-none">{title || "3D View"}</h3>
-                        <span className="text-white/40 text-[10px] mt-1 uppercase tracking-wider">Interaktives 3D-Modell</span>
+            {/* Header Area Inside the Window */}
+            <div className="absolute top-0 left-0 right-0 z-[100] bg-black/60 border-b border-white/10 backdrop-blur-xl md:px-10 px-6 py-6 flex items-center justify-between">
+                <div className="flex flex-col">
+                    <div className="flex items-center gap-3">
+                        <Box size={14} className="text-blue-500" />
+                        <span className="text-blue-500 font-black text-[10px] uppercase tracking-[0.4em]">{t.viewer.title}</span>
                     </div>
+                    <h4 className="text-white font-black text-xl md:text-2xl tracking-tighter uppercase mt-1">{title}</h4>
+                </div>
+
+                <div className="flex items-center gap-6">
+                    {/* Interaction Help Toggle */}
                     <button
-                        onClick={onClose}
-                        className="p-2 hover:bg-white/10 rounded-full transition-colors text-white"
+                        onClick={() => setShowHelp(!showHelp)}
+                        className={`hidden md:flex items-center gap-2 px-4 py-2 rounded-sm border transition-all ${showHelp ? 'bg-blue-600/20 border-blue-500 text-blue-400' : 'bg-white/5 border-white/10 text-white/60 hover:text-white'}`}
                     >
-                        <X size={24} />
+                        <Info size={16} />
+                        <span className="text-[10px] font-black tracking-widest uppercase">Kontroller</span>
+                    </button>
+
+                    {/* Auto Rotate Toggle */}
+                    <button
+                        onClick={() => setAutoRotate(!autoRotate)}
+                        className={`hidden md:flex items-center gap-2 px-4 py-2 rounded-sm border transition-all ${autoRotate ? 'bg-green-600/20 border-green-500 text-green-400' : 'bg-white/5 border-white/10 text-white/60 hover:text-white'}`}
+                    >
+                        {autoRotate ? <Pause size={14} fill="currentColor" /> : <Play size={14} fill="currentColor" />}
+                        <span className="text-[10px] font-black tracking-widest uppercase">{autoRotate ? 'Dönüyor' : 'Sabit'}</span>
+                    </button>
+
+                    <div className="w-px h-8 bg-white/10 hidden md:block" />
+
+                    <button
+                        onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            onClose();
+                        }}
+                        className="w-14 h-14 flex items-center justify-center bg-white/5 hover:bg-red-600 rounded-sm transition-all text-white border border-white/10 active:scale-95 group cursor-pointer"
+                        title="Close Viewer"
+                    >
+                        <X size={32} className="group-hover:rotate-90 transition-transform duration-300" />
+                    </button>
+                </div>
+            </div>
+
+            {/* Help Overlay - Shows instructions clearly */}
+            <AnimatePresence>
+                {showHelp && (
+                    <motion.div
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className="absolute top-[100px] right-6 md:right-32 z-[90] bg-black/80 backdrop-blur-xl border border-white/10 p-6 rounded-sm max-w-sm w-full shadow-2xl"
+                    >
+                        <h5 className="text-white font-black uppercase tracking-widest text-xs mb-4 border-b border-white/10 pb-2 flex items-center gap-2">
+                            <MousePointer2 size={14} className="text-blue-500" />
+                            Nasıl Kullanılır?
+                        </h5>
+                        <div className="flex flex-col gap-4">
+                            <div className="flex items-center gap-4">
+                                <div className="w-8 h-8 rounded-sm bg-white/10 flex items-center justify-center border border-white/5">
+                                    <Rotate3d size={16} className="text-white" />
+                                </div>
+                                <div className="flex flex-col">
+                                    <span className="text-[10px] font-black uppercase text-blue-400 tracking-widest">Döndürme (Rotate)</span>
+                                    <span className="text-xs text-neutral-400">Sol tık basılı tutun ve sürükleyin.</span>
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-4">
+                                <div className="w-8 h-8 rounded-sm bg-white/10 flex items-center justify-center border border-white/5">
+                                    <Hand size={16} className="text-white" />
+                                </div>
+                                <div className="flex flex-col">
+                                    <span className="text-[10px] font-black uppercase text-blue-400 tracking-widest">Kaydırma (Pan)</span>
+                                    <span className="text-xs text-neutral-400">Sağ tık (veya Shift + Sol tık) basılı tutun.</span>
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-4">
+                                <div className="w-8 h-8 rounded-sm bg-white/10 flex items-center justify-center border border-white/5">
+                                    <ChevronUp size={16} className="text-white" />
+                                </div>
+                                <div className="flex flex-col">
+                                    <span className="text-[10px] font-black uppercase text-blue-400 tracking-widest">Yakınlaşma (Zoom)</span>
+                                    <span className="text-xs text-neutral-400">Mouse tekerleğini kullanın.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            <div className="w-full h-full relative pt-24">
+                {loading && !error && (
+                    <div className="absolute inset-0 flex flex-col items-center justify-center text-white gap-6 z-10 bg-black">
+                        <Loader2 className="animate-spin text-blue-500" size={48} />
+                        <span className="text-[10px] font-black tracking-[0.4em] text-blue-500 uppercase">{t.common.loading}</span>
+                    </div>
+                )}
+
+                {error && (
+                    <div className="absolute inset-0 flex flex-col items-center justify-center text-white gap-4 z-20 bg-black p-6 text-center">
+                        <AlertCircle className="text-red-500" size={64} />
+                        <h2 className="text-2xl font-black uppercase tracking-tighter">ERROR</h2>
+                        <p className="text-sm font-medium text-white/40 uppercase tracking-widest">{error}</p>
+                    </div>
+                )}
+
+                {/* Simplified Controls */}
+                <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-40 flex items-center gap-4 bg-black/40 px-6 py-4 rounded-sm backdrop-blur-md border border-white/10">
+                    <button onClick={() => moveCamera('left')} className="p-3 hover:bg-white/10 rounded-sm text-white transition-colors"><ChevronLeft size={20} /></button>
+                    <div className="flex flex-col gap-1">
+                        <button onClick={() => moveCamera('up')} className="p-3 hover:bg-white/10 rounded-sm text-white transition-colors"><ChevronUp size={20} /></button>
+                        <button onClick={() => moveCamera('down')} className="p-3 hover:bg-white/10 rounded-sm text-white transition-colors"><ChevronDown size={20} /></button>
+                    </div>
+                    <button onClick={() => moveCamera('right')} className="p-3 hover:bg-white/10 rounded-sm text-white transition-colors"><ChevronRight size={20} /></button>
+                    <div className="w-px h-10 bg-white/10 mx-2" />
+                    <button onClick={() => moveCamera('reset')} className="p-3 bg-blue-600 hover:bg-blue-500 rounded-sm text-white transition-all flex items-center gap-2">
+                        <RotateCcw size={16} />
+                        <span className="text-[10px] font-black uppercase tracking-widest hidden sm:block">Reset</span>
+                    </button>
+
+                    {/* Mobile Only Help Trigger */}
+                    <div className="w-px h-10 bg-white/10 mx-2 md:hidden" />
+                    <button onClick={() => setShowHelp(!showHelp)} className="md:hidden p-3 bg-white/10 hover:bg-white/20 rounded-sm text-white transition-all">
+                        <Info size={20} className={showHelp ? "text-blue-400" : "text-white"} />
                     </button>
                 </div>
 
-                <div className="flex-1 relative">
-                    {loading && (
-                        <div className="absolute inset-0 flex items-center justify-center text-white gap-3 z-10 bg-[#111]">
-                            <Loader2 className="animate-spin" size={32} />
-                            <span className="text-lg font-medium">Laden...</span>
-                        </div>
-                    )}
-
-                    <div className="absolute bottom-4 left-4 z-20 flex flex-col items-center gap-1 bg-black/40 p-2 rounded-xl backdrop-blur-md border border-white/10 shadow-xl">
-                        <button
-                            onClick={() => moveCamera('up')}
-                            className="p-2 hover:bg-white/20 rounded-lg text-white transition-colors"
+                {(() => {
+                    const ModelViewer = 'model-viewer' as any;
+                    return (
+                        <ModelViewer
+                            ref={viewerRef}
+                            src={src}
+                            alt={title || "3D Model"}
+                            camera-controls
+                            interaction-prompt="none"
+                            shadow-intensity="1"
+                            environment-image="neutral"
+                            exposure="1.2"
+                            loading="eager"
+                            camera-target="auto auto auto"
+                            autoplay={autoRotate ? "true" : undefined}
+                            auto-rotate={autoRotate ? "true" : undefined}
+                            style={{
+                                width: "100%",
+                                height: "100%",
+                                backgroundColor: "transparent",
+                            }}
                         >
-                            <ChevronUp size={20} />
-                        </button>
-                        <div className="flex gap-1">
-                            <button
-                                onClick={() => moveCamera('left')}
-                                className="p-2 hover:bg-white/20 rounded-lg text-white transition-colors"
-                            >
-                                <ChevronLeft size={20} />
-                            </button>
-                            <button
-                                onClick={() => moveCamera('reset')}
-                                className="p-2 bg-blue-600/50 hover:bg-blue-600 rounded-lg text-white transition-colors"
-                            >
-                                <RotateCcw size={16} />
-                            </button>
-                            <button
-                                onClick={() => moveCamera('right')}
-                                className="p-2 hover:bg-white/20 rounded-lg text-white transition-colors"
-                            >
-                                <ChevronRight size={20} />
-                            </button>
-                        </div>
-                        <button
-                            onClick={() => moveCamera('down')}
-                            className="p-2 hover:bg-white/20 rounded-lg text-white transition-colors"
-                        >
-                            <ChevronDown size={20} />
-                        </button>
-                    </div>
-
-                    {(() => {
-                        const ModelViewer = 'model-viewer' as any;
-                        return (
-                            <ModelViewer
-                                ref={viewerRef}
-                                src={src}
-                                alt={title || "3D Model"}
-                                camera-controls
-                                interaction-prompt="none"
-                                shadow-intensity="1"
-                                environment-image="neutral"
-                                exposure="1"
-                                loading="eager"
-                                camera-target="auto auto auto"
-                                bounds="tight"
-                                min-polar-angle="0deg"
-                                max-polar-angle="180deg"
-                                interpolation-decay="200"
-                                style={{
-                                    width: "100%",
-                                    height: "100%",
-                                    backgroundColor: "transparent",
-                                    "--poster-color": "transparent",
-                                }}
-                            >
-                                <div slot="progress-bar" className="hidden"></div>
-                            </ModelViewer>
-                        );
-                    })()}
-                </div>
-
-                <div className="p-4 text-center text-white/50 text-[11px] bg-black/50 border-t border-white/10">
-                    Maus: Drehen • Scrollen: Zoom • Shift + Maus: Bewegen
-                </div>
-            </motion.div>
+                            <div slot="progress-bar" className="hidden"></div>
+                        </ModelViewer>
+                    );
+                })()}
+            </div>
         </motion.div>
     );
+
+    return createPortal(viewerContent, document.body);
 }

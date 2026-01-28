@@ -1,9 +1,11 @@
 "use client";
 
-import Image from "next/image";
-import { motion } from "framer-motion";
+import { useTranslation } from "@/lib/i18n";
 import { Project } from "@/types/project";
-import { useRef, useState } from "react";
+import { motion } from "framer-motion";
+import { Maximize2, Box, ArrowUpRight } from "lucide-react";
+import Image from "next/image";
+import { useState } from "react";
 
 interface ProjectCardProps {
     project: Project;
@@ -12,60 +14,82 @@ interface ProjectCardProps {
 }
 
 export function ProjectCard({ project, onClick, index }: ProjectCardProps) {
-    const cardRef = useRef<HTMLDivElement>(null);
-    const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
+    const { t } = useTranslation();
     const [isHovered, setIsHovered] = useState(false);
-
-    function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
-        if (!cardRef.current) return;
-        const rect = cardRef.current.getBoundingClientRect();
-        setMousePos({
-            x: ((e.clientX - rect.left) / rect.width) * 100,
-            y: ((e.clientY - rect.top) / rect.height) * 100
-        });
-    }
+    const localizedProject = (t.projects as any)[project.id] || project;
 
     return (
         <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: index * 0.1 }}
-            className="relative w-full aspect-square group cursor-pointer overflow-hidden border border-white/5 bg-[#0a0a0a] rounded-sm transition-all duration-500 hover:border-white/20"
-            onMouseMove={handleMouseMove}
+            transition={{ duration: 1, delay: index * 0.15, ease: [0.23, 1, 0.32, 1] }}
+            className="group relative aspect-[3/4] cursor-none overflow-hidden bg-black border border-white/10 rounded-sm"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             onClick={onClick}
-            ref={cardRef}
         >
-            <Image
-                src={project.thumbnail}
-                alt={project.title}
-                fill
-                className="object-contain object-center transition-all duration-1000 opacity-60 grayscale scale-100 group-hover:opacity-100 group-hover:grayscale-0 group-hover:scale-105 p-2 md:p-3 lg:p-4"
-                sizes="(max-width: 1024px) 100vw, 25vw"
-            />
-
-            {/* Glass Overlay on Hover */}
-            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-1" />
-
-            {/* Dynamic Lighting Overlay */}
-            <div
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-10"
-                style={{
-                    background: `radial-gradient(400px circle at ${mousePos.x}% ${mousePos.y}%, rgba(255,255,255,0.12), transparent 60%)`
+            {/* Background Image */}
+            <motion.div
+                className="absolute inset-0 z-0 opacity-40 group-hover:opacity-70 transition-opacity duration-700"
+                animate={{
+                    scale: isHovered ? 1.1 : 1,
                 }}
-            />
+            >
+                <Image
+                    src={project.thumbnail}
+                    alt={localizedProject.title}
+                    fill
+                    className="object-contain p-8 grayscale group-hover:grayscale-0 transition-all duration-700"
+                    sizes="(max-width: 1024px) 100vw, 25vw"
+                />
+            </motion.div>
 
-            {/* Subtle Grid Pattern overlay */}
-            <div className="absolute inset-0 opacity-[0.02] pointer-events-none"
-                style={{ backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
 
-            <div className="absolute bottom-0 left-0 right-0 p-5 md:p-8 z-20">
-                <h3 className="text-sm md:text-base lg:text-lg font-black tracking-[0.2em] uppercase text-white transform transition-all duration-500 group-hover:tracking-[0.3em]">
-                    {project.title}
-                </h3>
-                <div className="h-[1px] w-0 bg-white/40 transition-all duration-1000 group-hover:w-full mt-3" />
+
+            {/* Project Info Overlay - Minimalist */}
+            <div className="absolute inset-0 p-8 flex flex-col justify-between z-30 pointer-events-none">
+                {/* Top Bar - ID REMOVED as requested */}
+                <div className="flex justify-end items-start w-full">
+                    {/* Indicators Only */}
+                    <div className="flex items-center gap-2">
+                        {project.type !== "image" && (
+                            <div className="flex items-center gap-2 bg-blue-600/20 backdrop-blur-md px-2 py-1 rounded-sm border border-blue-500/30">
+                                <Box size={12} className="text-blue-400" />
+                                <span className="text-[9px] font-black tracking-widest text-blue-400">{t.common.model3d}</span>
+                            </div>
+                        )}
+                        <span className="flex items-center gap-1 bg-white/5 backdrop-blur-md px-2 py-1 rounded-sm border border-white/10">
+                            <Maximize2 size={10} className="text-white/70" />
+                            <span className="text-[9px] font-black tracking-widest text-white/70">{t.common.photo}</span>
+                        </span>
+                    </div>
+                </div>
+
+                {/* Content Overlay */}
+                <div className="absolute inset-0 z-20 flex flex-col justify-end p-8">
+                    {/* ID / Subtitle Line */}
+
+
+                    {/* Title */}
+                    <h3 className="text-3xl md:text-3xl font-black tracking-tighter text-white uppercase mb-8">
+                        {localizedProject.title}
+                    </h3>
+
+                    {/* Footer / Tech Info */}
+                    <div className="flex items-center justify-between border-t border-white/10 pt-6">
+                        <span className="text-[10px] font-bold tracking-widest text-neutral-500 uppercase">
+                            {t.common.category || "TECHNOLOGIE"}
+                        </span>
+                        <div className="p-2 border border-white/10 rounded-sm text-white/50 transition-colors">
+                            <ArrowUpRight size={14} />
+                        </div>
+                    </div>
+                </div>
             </div>
+
+            {/* Corner Accents */}
+            <div className="absolute top-0 left-0 w-8 h-8 border-t border-l border-white/20 rounded-tl-sm pointer-events-none" />
+            <div className="absolute bottom-0 right-0 w-8 h-8 border-b border-r border-white/20 rounded-br-sm pointer-events-none" />
         </motion.div>
     );
 }

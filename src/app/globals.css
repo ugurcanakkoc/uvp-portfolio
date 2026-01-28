@@ -2,73 +2,90 @@
 
 @theme {
   --font-sans: var(--font-inter);
+  --font-mono: var(--font-geist-mono);
 }
 
-@layer base {
-  body {
-    @apply selection:bg-white/20 selection:text-white bg-[#050505] text-white min-h-screen antialiased font-sans overflow-x-hidden;
-  }
+:root {
+  --background: #000000;
+  --foreground: #ffffff;
+  --accent: #3b82f6;
+  --grid-color: rgba(255, 255, 255, 0.05);
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+}
 
-  /* Desktop Dashboard Fixed Layout */
-  @media (min-width: 1024px) {
-    body {
-      @apply h-screen overflow-hidden;
-    }
-  }
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* Cleaner, Non-Distracting Background */
+.technical-bg {
+  position: fixed;
+  inset: 0;
+  background-color: #000;
+  background-image:
+    linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+  background-size: 80px 80px;
+  background-position: center center;
+  z-index: -2;
+}
+
+.technical-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), rgba(59, 130, 246, 0.1) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* Professional Custom Cursor - Optimized */
+.custom-cursor {
+  width: 20px;
+  height: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 10000;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-cursor-dot {
+  position: fixed;
+  width: 3px;
+  height: 3px;
+  background: var(--accent);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10001;
+  transform: translate(-50%, -50%);
+}
+
+/* Premium Typography */
+.luxury-heading {
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 900;
+}
+
+.text-gradient {
+  background: linear-gradient(to bottom, #fff 0%, #888 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 @layer utilities {
-  .smoke-bg {
-    background:
-      radial-gradient(circle at 50% 50%, #0d0d0d 0%, #050505 100%),
-      radial-gradient(circle at 20% 30%, #171717 0%, transparent 50%),
-      radial-gradient(circle at 80% 70%, #121212 0%, transparent 50%);
-    background-attachment: fixed;
+  .text-balance {
+    text-wrap: balance;
   }
-
-  .spotlight-global {
-    background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y),
-        rgba(255, 255, 255, 0.03),
-        transparent 40%);
-  }
-
-  .luxury-heading {
-    @apply text-[10px] uppercase tracking-[0.6em] font-medium text-neutral-600;
-  }
-}
-
-/* Lightbox Customization */
-:root {
-  --yarl__thumbnails_thumbnail_active_border: 2px solid #ffffff;
-  --yarl__thumbnails_thumbnail_active_opacity: 1;
-  --yarl__thumbnails_thumbnail_opacity: 0.35;
-  --yarl__thumbnails_thumbnail_background: transparent;
-  --yarl__thumbnails_container_background: rgba(0, 0, 0, 0.4);
-}
-
-.yarl__thumbnails_container {
-  padding: 20px !important;
-}
-
-.yarl__thumbnails_thumbnail {
-  border-radius: 4px;
-  overflow: hidden;
-  border: 2px solid transparent !important;
-  transition: all 0.3s ease;
-}
-
-.yarl__thumbnails_thumbnail_active {
-  border: 2px solid #ffffff !important;
-  transform: scale(1.05);
-  box-shadow: 0 0 15px 2px rgba(255, 255, 255, 0.4) !important;
-  z-index: 10;
-}
-
-/* Kütüphanenin kendi border değişkenini de güncelleyelim ki geçişlerde kaybolmasın */
-.yarl__thumbnails_thumbnail_active {
-  --yarl__thumbnails_thumbnail_active_border: 2px solid #ffffff;
-}
-
-.yarl__thumbnails_thumbnail img {
-  object-fit: cover !important;
 }

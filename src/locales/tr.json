@@ -1,0 +1,79 @@
+{
+    "common": {
+        "brand": "UVP PANO MONTAJI",
+        "examples": "PROJE PORTFÖYÜ",
+        "excellence": "GELECEĞİN",
+        "precision": "MÜHENDİSLİĞİ",
+        "allRights": "TÜM HAKLARI SAKLIDIR",
+        "ready": "AKTİF",
+        "loading": "Yükleniyor...",
+        "category": "Teknoloji",
+        "standard": "Endüstriyel",
+        "photo": "FOTOĞRAF",
+        "model3d": "3D MODEL"
+    },
+    "home": {
+        "heroDesc": "Yapay zeka destekli mühendislik ve dijital ikiz teknolojisiyle elektrik panosu üretiminde yeni standart: Daha hızlı. Daha akıllı. Sıfır hata.",
+        "aiFocus": "YAPAY ZEKA DESTEKLİ",
+        "digitalTwin": "DİJİTAL İKİZ KONSEPTİ",
+        "highlights": {
+            "smartControl": "Yıllık Üretim Kapasitesi",
+            "smartControlDesc": "Yapay zeka optimize edilmiş seri üretim hattı",
+            "safety": "Sektörel Tecrübe",
+            "safetyDesc": "Endüstriyel otomasyon ve enerjide uzmanlık",
+            "efficiency": "Dijital İş Akışı",
+            "efficiencyDesc": "Kağıtsız, hatasız ve tam izlenebilir üretim"
+        },
+        "stats": {
+            "panels": {
+                "value": 200,
+                "suffix": "+",
+                "label": "Pano / Yıl"
+            },
+            "experience": {
+                "value": 20,
+                "suffix": "+",
+                "label": "Yıl Tecrübe"
+            },
+            "digital": {
+                "value": 100,
+                "suffix": "%",
+                "label": "Dijitalleşme"
+            }
+        },
+        "taglineSmall": "ENDÜSTRİYEL STANDART",
+        "taglineBig": "HASSASİYET. KALİTE. GÜVEN.",
+        "cta": "Elektrik panosu projeleriniz için geleceğin teknolojisini bugün kullanın."
+    },
+    "viewer": {
+        "title": "3D MODEL İNCELEME",
+        "interactive": "İnteraktif Görünüm",
+        "controls": {
+            "rotate": "Döndür",
+            "zoom": "Yakınlaştır",
+            "move": "Kaydır"
+        }
+    },
+    "projects": {
+        "e210": {
+            "title": "SCHALTSCHRANK 1",
+            "description": "",
+            "type": ""
+        },
+        "e500": {
+            "title": "SCHALTSCHRANK 2",
+            "description": "",
+            "type": ""
+        },
+        "j1": {
+            "title": "SCHALTSCHRANK 3",
+            "description": "",
+            "type": ""
+        },
+        "mcc1": {
+            "title": "SCHALTSCHRANK 4",
+            "description": "",
+            "type": ""
+        }
+    }
+}
