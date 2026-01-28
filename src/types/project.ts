@@ -14,4 +14,5 @@ export interface Project {
     specs?: ProjectSpecs;
     date?: string;
     client?: string;
+    modelUrl?: string;
 }

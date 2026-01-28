@@ -22,7 +22,8 @@ export const projects: Project[] = [
         ],
         specs: {
             type: "Steuerungsbau"
-        }
+        },
+        modelUrl: "/models/e210_draco.glb"
     },
     {
         id: "e500",
@@ -44,7 +45,8 @@ export const projects: Project[] = [
         ],
         specs: {
             type: "Energieverteilung"
-        }
+        },
+        modelUrl: "/models/e500_draco.glb"
     },
     {
         id: "j1",
@@ -63,7 +65,8 @@ export const projects: Project[] = [
         ],
         specs: {
             type: "Anschlusslösung"
-        }
+        },
+        modelUrl: "/models/j1_draco.glb"
     },
     {
         id: "mcc1",
@@ -80,6 +83,7 @@ export const projects: Project[] = [
         ],
         specs: {
             type: "MCC"
-        }
+        },
+        modelUrl: "/models/mcc1_draco.glb"
     }
 ];
