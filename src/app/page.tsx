@@ -118,10 +118,10 @@ export default function Home() {
               {t.home.cta}
             </p>
             <a
-              href="mailto:info@uvp-schaltschrankbau.de"
+              href="mailto:hasan.uzun@uvp-schaltschrankbau.de"
               className="group flex items-center gap-4 bg-white text-black px-8 py-4 rounded-sm font-black tracking-widest uppercase hover:bg-blue-600 hover:text-white transition-all transform hover:translate-x-2"
             >
-              {t.common.brand} / Contact
+              {t.common.brand} / {t.common.contact}
               <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
             </a>
           </div>

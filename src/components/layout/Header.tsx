@@ -12,7 +12,7 @@ export function Header() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const toggleLang = () => {
-        setLang(lang === 'tr' ? 'de' : 'tr');
+        setLang(lang === 'en' ? 'de' : 'en');
     };
 
     return (
@@ -37,7 +37,7 @@ export function Header() {
                     <div className="hidden lg:flex items-center gap-12 relative z-10">
                         {/* Navigation / Text */}
                         <span className="text-xs font-black tracking-widest text-white uppercase">
-                            {t.common.examples || "PROJE PORTFÖYÜ"}
+                            {t.common.examples}
                         </span>
 
                         {/* Controls */}
@@ -47,7 +47,7 @@ export function Header() {
                                 onClick={toggleLang}
                                 className="flex items-center gap-3 group/lang"
                             >
-                                <span className={`text-xs font-black tracking-widest ${lang === 'tr' ? 'text-white' : 'text-neutral-500'} group-hover/lang:text-white transition-colors`}>TR</span>
+                                <span className={`text-xs font-black tracking-widest ${lang === 'en' ? 'text-white' : 'text-neutral-500'} group-hover/lang:text-white transition-colors`}>EN</span>
                                 <div className="w-8 h-4 rounded-full border border-white/20 relative p-0.5">
                                     <div className={`w-2.5 h-2.5 bg-blue-500 rounded-full transition-all duration-300 ${lang === 'de' ? 'translate-x-4' : 'translate-x-0'}`} />
                                 </div>
@@ -79,9 +79,9 @@ export function Header() {
                             onClick={toggleLang}
                             className="flex items-center justify-between w-full p-4 bg-white/5 rounded-sm"
                         >
-                            <span className="text-sm font-bold text-neutral-400">LANGUAGE</span>
+                            <span className="text-sm font-bold text-neutral-400">{t.common.language}</span>
                             <div className="flex items-center gap-3">
-                                <span className={lang === 'tr' ? 'text-white' : 'text-neutral-600'}>TR</span>
+                                <span className={lang === 'en' ? 'text-white' : 'text-neutral-600'}>EN</span>
                                 <span className="text-neutral-600">/</span>
                                 <span className={lang === 'de' ? 'text-white' : 'text-neutral-600'}>DE</span>
                             </div>

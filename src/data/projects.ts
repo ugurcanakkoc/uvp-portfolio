@@ -6,8 +6,8 @@ const SUPABASE_STORAGE_URL = "https://brxxmbmolsxalbysvsss.supabase.co/storage/v
 export const projects: Project[] = [
     {
         id: "e210",
-        title: "Pano Montajı 4.0",
-        description: "Dijital ikiz tabanlı modern pano montajı ve E-Plan entegrasyonu.",
+        title: "E210",
+        description: "",
         thumbnail: "/images/cover/e210_cover.png",
         images: [
             "/images/e210/mb13_038_e210_0.png",
@@ -24,14 +24,14 @@ export const projects: Project[] = [
             "/images/e210/mb13_038_e210_11.jpg"
         ],
         specs: {
-            type: "E-Plan Montajı"
+            type: ""
         },
         modelUrl: `${SUPABASE_STORAGE_URL}/e210_draco.glb`
     },
     {
         id: "e500",
-        title: "Hassas Kabin İşleme",
-        description: "Steinhauer Modcenter ile milimetrik hassasiyette mekanik işleme.",
+        title: "E500",
+        description: "",
         thumbnail: "/images/cover/e500_cover.png",
         images: [
             "/images/e500/e500_0.png",
@@ -47,14 +47,14 @@ export const projects: Project[] = [
             "/images/e500/e500_10.jpg"
         ],
         specs: {
-            type: "Mekanik İşleme"
+            type: ""
         },
         modelUrl: `${SUPABASE_STORAGE_URL}/e500_draco.glb`
     },
     {
         id: "j1",
-        title: "Otomatik Kablolama",
-        description: "Komax Zeta 640 ile tam otomatik kablo hazırlama ve markalama.",
+        title: "J1",
+        description: "",
         thumbnail: "/images/cover/j1_cover.png",
         images: [
             "/images/j1/j1_0.png",
@@ -67,14 +67,14 @@ export const projects: Project[] = [
             "/images/j1/j1_7.jpg"
         ],
         specs: {
-            type: "Tam Otomatik"
+            type: ""
         },
         modelUrl: `${SUPABASE_STORAGE_URL}/j1_draco.glb`
     },
     {
         id: "mcc1",
-        title: "Endüstriyel Enerji",
-        description: "Yüksek verimli alçak gerilim ve enerji dağıtım sistemleri.",
+        title: "MCC1",
+        description: "",
         thumbnail: "/images/cover/mcc1_cover.png",
         images: [
             "/images/mcc1/mb17_004_mcc1_0.png",
@@ -85,7 +85,7 @@ export const projects: Project[] = [
             "/images/mcc1/mb17_004_mcc1_5.png"
         ],
         specs: {
-            type: "Güç Dağıtımı"
+            type: ""
         },
         modelUrl: `${SUPABASE_STORAGE_URL}/mcc1_draco.glb`
     }

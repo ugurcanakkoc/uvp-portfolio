@@ -1,13 +1,13 @@
 "use client";
 
 import { createContext, useContext, useState, ReactNode } from "react";
-import tr from "@/locales/tr.json";
+import en from "@/locales/en.json";
 import de from "@/locales/de.json";
 
-type Language = "tr" | "de";
-const locales = { tr, de } as const;
+type Language = "en" | "de";
+const locales = { en, de } as const;
 
-type TranslationType = typeof tr;
+type TranslationType = typeof en;
 
 interface I18nContextType {
     t: TranslationType;

@@ -71,9 +71,16 @@ export function ProjectCard({ project, onClick, index }: ProjectCardProps) {
 
 
                     {/* Title */}
-                    <h3 className="text-3xl md:text-3xl font-black tracking-tighter text-white uppercase mb-8">
-                        {localizedProject.title}
-                    </h3>
+                    <div className="mb-8">
+                        {localizedProject.prefix && (
+                            <span className="block text-[10px] font-black tracking-[0.3em] text-blue-500 uppercase mb-2">
+                                {localizedProject.prefix}
+                            </span>
+                        )}
+                        <h3 className="text-3xl md:text-3xl font-black tracking-tighter text-white uppercase leading-none">
+                            {localizedProject.title}
+                        </h3>
+                    </div>
 
                     {/* Footer / Tech Info */}
                     <div className="flex items-center justify-between border-t border-white/10 pt-6">

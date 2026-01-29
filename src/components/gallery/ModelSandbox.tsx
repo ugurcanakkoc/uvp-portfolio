@@ -4,12 +4,14 @@ import { useEffect, useState, useRef } from "react";
 import Script from "next/script";
 import { X, Loader2, ChevronUp, ChevronDown, ChevronLeft, ChevronRight, RotateCcw, Upload, FileCode } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslation } from "@/lib/i18n";
 
 interface ModelSandboxProps {
     onClose: () => void;
 }
 
 export function ModelSandbox({ onClose }: ModelSandboxProps) {
+    const { t, lang } = useTranslation();
     const [loading, setLoading] = useState(false);
     const [modelSrc, setModelSrc] = useState<string | null>(null);
     const [fileName, setFileName] = useState<string | null>(null);
@@ -29,7 +31,7 @@ export function ModelSandbox({ onClose }: ModelSandboxProps) {
         if (!file) return;
 
         if (!file.name.endsWith('.glb')) {
-            alert("Lütfen sadece .glb dosyası yükleyin.");
+            alert(t.viewer.sandbox.onlyGlb);
             return;
         }
 
@@ -92,9 +94,9 @@ export function ModelSandbox({ onClose }: ModelSandboxProps) {
                             <FileCode className="text-blue-500" size={20} />
                         </div>
                         <div>
-                            <h3 className="text-white font-bold tracking-tight">GLB Model Sandbox</h3>
+                            <h3 className="text-white font-bold tracking-tight">{t.viewer.sandbox.title}</h3>
                             <p className="text-white/40 text-[10px] uppercase tracking-widest leading-none mt-1">
-                                {fileName || "Dosya Yüklenmedi"}
+                                {fileName || t.viewer.sandbox.noFile}
                             </p>
                         </div>
                     </div>
@@ -105,7 +107,7 @@ export function ModelSandbox({ onClose }: ModelSandboxProps) {
                             className="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-xl text-xs font-bold transition-all active:scale-95 shadow-lg shadow-blue-600/20"
                         >
                             <Upload size={16} />
-                            MODEL YÜKLE
+                            {t.viewer.sandbox.upload}
                         </button>
                         <input
                             type="file"
@@ -130,15 +132,15 @@ export function ModelSandbox({ onClose }: ModelSandboxProps) {
                         {!modelSrc && !loading && (
                             <div className="absolute inset-0 flex flex-col items-center justify-center text-white/20 p-10 text-center">
                                 <Upload size={64} className="mb-6 opacity-20" />
-                                <h4 className="text-xl font-medium mb-2 opacity-50 text-white">3D Önizleme Hazır</h4>
-                                <p className="max-w-xs text-sm">Lütfen incelemek istediğiniz .glb dosyasını yukarıdaki butondan seçin.</p>
+                                <h4 className="text-xl font-medium mb-2 opacity-50 text-white">{t.viewer.simulationReady}</h4>
+                                <p className="max-w-xs text-sm">{lang === 'en' ? 'Please select the .glb file you want to examine from the button above.' : 'Bitte wählen Sie die .glb-Datei, die Sie untersuchen möchten, über die Schaltfläche oben aus.'}</p>
                             </div>
                         )}
 
                         {loading && (
                             <div className="absolute inset-0 flex flex-col items-center justify-center text-white gap-4 z-30 bg-[#0a0a0a]">
                                 <Loader2 className="animate-spin text-blue-500" size={48} />
-                                <span className="text-sm font-bold tracking-widest text-blue-400">MODEL İŞLENİYOR...</span>
+                                <span className="text-sm font-bold tracking-widest text-blue-400">{t.viewer.modelProcessing}</span>
                             </div>
                         )}
 
@@ -188,40 +190,40 @@ export function ModelSandbox({ onClose }: ModelSandboxProps) {
                     {/* Sidebar Info */}
                     <div className="w-80 border-l border-white/5 bg-black/30 p-8 hidden lg:flex flex-col gap-8">
                         <div>
-                            <h4 className="text-xs font-black text-white px-2 py-1 bg-white/5 rounded w-fit mb-4">DOSYA BİLGİSİ</h4>
+                            <h4 className="text-xs font-black text-white px-2 py-1 bg-white/5 rounded w-fit mb-4">{t.viewer.sandbox.fileInfo}</h4>
                             <div className="space-y-4">
                                 <div>
-                                    <p className="text-[10px] text-white/30 uppercase tracking-widest font-bold">Dosya İsmi</p>
+                                    <p className="text-[10px] text-white/30 uppercase tracking-widest font-bold">{t.viewer.sandbox.fileName}</p>
                                     <p className="text-sm text-white/80 font-mono truncate">{fileName || "---"}</p>
                                 </div>
                                 <div>
-                                    <p className="text-[10px] text-white/30 uppercase tracking-widest font-bold">Format</p>
+                                    <p className="text-[10px] text-white/30 uppercase tracking-widest font-bold">{t.viewer.sandbox.format}</p>
                                     <p className="text-sm text-white/80 font-mono">glTF 2.0 Binary (.glb)</p>
                                 </div>
                             </div>
                         </div>
 
                         <div>
-                            <h4 className="text-xs font-black text-white px-2 py-1 bg-white/5 rounded w-fit mb-4">KONTROLLER</h4>
+                            <h4 className="text-xs font-black text-white px-2 py-1 bg-white/5 rounded w-fit mb-4">{t.viewer.sandbox.controls}</h4>
                             <ul className="space-y-3">
                                 <li className="flex items-center gap-3 text-xs text-white/40">
                                     <span className="w-1.5 h-1.5 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
-                                    Mouse: Döndürme
+                                    {t.viewer.sandbox.mouse}
                                 </li>
                                 <li className="flex items-center gap-3 text-xs text-white/40">
                                     <span className="w-1.5 h-1.5 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
-                                    Scroll: Zoom
+                                    {t.viewer.sandbox.scroll}
                                 </li>
                                 <li className="flex items-center gap-3 text-xs text-white/40">
                                     <span className="w-1.5 h-1.5 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
-                                    Alt + Click: Kaydırma
+                                    {t.viewer.sandbox.pan}
                                 </li>
                             </ul>
                         </div>
 
                         <div className="mt-auto bg-blue-600/5 p-4 rounded-2xl border border-blue-500/10">
                             <p className="text-[10px] text-blue-400 font-bold uppercase tracking-widest leading-relaxed">
-                                Bu araç, modelleri projenize eklemeden önce performans testi yapmanız için özel olarak hazırlanmıştır.
+                                {t.viewer.sandbox.sandboxDesc}
                             </p>
                         </div>
                     </div>

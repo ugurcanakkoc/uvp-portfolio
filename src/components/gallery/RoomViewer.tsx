@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import * as BABYLON from "@babylonjs/core";
 import "@babylonjs/loaders";
 import { Move, MousePointer2, X } from "lucide-react";
+import { useTranslation } from "@/lib/i18n";
 
 interface RoomViewerProps {
     modelUrl: string;
@@ -11,6 +12,7 @@ interface RoomViewerProps {
 
 export default function RoomViewer({ modelUrl }: RoomViewerProps) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const { t, lang } = useTranslation();
     const [isLoading, setIsLoading] = useState(true);
     const [progress, setProgress] = useState(0);
     const [isLocked, setIsLocked] = useState(false);
@@ -165,7 +167,7 @@ export default function RoomViewer({ modelUrl }: RoomViewerProps) {
                         />
                     </div>
                     <p className="text-blue-400 font-mono text-xs tracking-widest animate-pulse">
-                        SIMULATION LÄDT... {progress}%
+                        {t.viewer.simulationLoading} {progress}%
                     </p>
                 </div>
             )}
@@ -182,7 +184,7 @@ export default function RoomViewer({ modelUrl }: RoomViewerProps) {
 
                         <div className="grid grid-cols-2 gap-4 mb-10">
                             <div className="bg-white/5 p-4 rounded-2xl border border-white/5 text-left">
-                                <p className="text-[10px] text-neutral-500 font-bold mb-2 uppercase tracking-tight">Bewegen</p>
+                                <p className="text-[10px] text-neutral-500 font-bold mb-2 uppercase tracking-tight">{t.viewer.controls.move}</p>
                                 <div className="flex gap-1">
                                     {['W', 'A', 'S', 'D'].map(k => (
                                         <span key={k} className="w-7 h-7 bg-white/10 rounded-lg flex items-center justify-center text-xs font-bold">{k}</span>
@@ -190,9 +192,9 @@ export default function RoomViewer({ modelUrl }: RoomViewerProps) {
                                 </div>
                             </div>
                             <div className="bg-white/5 p-4 rounded-2xl border border-white/5 text-left">
-                                <p className="text-[10px] text-neutral-500 font-bold mb-2 uppercase tracking-tight">Navigieren</p>
+                                <p className="text-[10px] text-neutral-500 font-bold mb-2 uppercase tracking-tight">{t.viewer.navigate}</p>
                                 <div className="flex items-center gap-2">
-                                    <span className="bg-white/10 px-3 py-1 rounded-lg text-xs font-bold uppercase">Maus</span>
+                                    <span className="bg-white/10 px-3 py-1 rounded-lg text-xs font-bold uppercase">{lang === 'en' ? 'Mouse' : 'Maus'}</span>
                                     <span className="text-[10px] text-neutral-600">Click to teleport</span>
                                 </div>
                             </div>
@@ -202,7 +204,7 @@ export default function RoomViewer({ modelUrl }: RoomViewerProps) {
                             className="w-full bg-blue-600 hover:bg-blue-500 text-white font-black py-5 rounded-2xl transition-all active:scale-[0.98] shadow-[0_0_30px_rgba(37,99,235,0.3)] uppercase tracking-widest"
                             onClick={() => canvasRef.current?.requestPointerLock()}
                         >
-                            SIMULATION STARTEN
+                            {t.viewer.simulationStart}
                         </button>
                     </div>
                 </div>

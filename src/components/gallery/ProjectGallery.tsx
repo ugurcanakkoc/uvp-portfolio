@@ -92,7 +92,7 @@ export function ProjectGallery({ projects }: ProjectGalleryProps) {
                                 type="button"
                                 onClick={() => setLightboxOpen(false)}
                                 className="w-14 h-14 flex items-center justify-center bg-white/5 hover:bg-red-600 rounded-sm transition-all text-white border border-white/10 active:scale-95 group cursor-pointer m-2 backdrop-blur-md"
-                                title="Close"
+                                title={t.viewer.controls.close}
                             >
                                 <X size={32} className="group-hover:rotate-90 transition-transform duration-300" />
                             </button>

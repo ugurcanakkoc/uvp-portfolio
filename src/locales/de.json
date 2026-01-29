@@ -10,7 +10,9 @@
         "category": "Technologie",
         "standard": "Industriell",
         "photo": "FOTO",
-        "model3d": "3D MODELL"
+        "model3d": "3D MODELL",
+        "contact": "Kontakt",
+        "language": "SPRACHE"
     },
     "home": {
         "heroDesc": "Der neue Standard im Schaltschrankbau mit KI-gestütztem Engineering und Technologie des Digitalen Zwillings: Schneller. Intelligenter. Fehlerfrei.",
@@ -68,28 +70,55 @@
             "panDesc": "Rechte Maustaste gedrückt halten.",
             "zoom": "Zoomen",
             "zoomDesc": "Mausrad benutzen."
+        },
+        "simulationLoading": "Simulation lädt...",
+        "simulationStart": "SIMULATION STARTEN",
+        "simulationReady": "3D Vorschau bereit",
+        "modelProcessing": "MODELL WIRD VERARBEITET...",
+        "navigate": "NAVIGIEREN",
+        "back": "Zurück",
+        "exit": "Beenden",
+        "modelNotFound": "Modell nicht gefunden",
+        "backToDashboard": "Zurück zum Dashboard",
+        "sandbox": {
+            "title": "GLB Modell Sandbox",
+            "upload": "MODELL HOCHLADEN",
+            "noFile": "Keine Datei geladen",
+            "onlyGlb": "Bitte nur .glb Dateien hochladen.",
+            "fileInfo": "DATEI-INFORMATION",
+            "fileName": "Dateiname",
+            "format": "Format",
+            "controls": "STEUERUNG",
+            "mouse": "Maus: Drehen",
+            "scroll": "Scrollen: Zoomen",
+            "pan": "Alt + Klick: Verschieben",
+            "sandboxDesc": "Dieses Tool wurde speziell für Performance-Tests von Modellen entwickelt, bevor diese in das Projekt integriert werden."
         }
     },
     "projects": {
         "e210": {
-            "title": "SCHALTSCHRANK 1",
-            "description": "",
-            "type": ""
+            "prefix": "",
+            "title": "Schaltschrank 1",
+            "description": "Digitale Zwilling-basierte moderne Schaltschrankmontage and E-Plan-Integration.",
+            "type": "E-Plan Montage"
         },
         "e500": {
-            "title": "SCHALTSCHRANK 2",
-            "description": "",
-            "type": ""
+            "prefix": "",
+            "title": "Schaltschrank 2",
+            "description": "Millimetergenaue mechanische Bearbeitung mit dem Steinhauer Modcenter.",
+            "type": "Mechanische Bearbeitung"
         },
         "j1": {
-            "title": "SCHALTSCHRANK 3",
-            "description": "",
-            "type": ""
+            "prefix": "",
+            "title": "Schaltschrank 3",
+            "description": "Vollautomatische Kabelvorbereitung und Markierung mit Komax Zeta 640.",
+            "type": "Vollautomatisch"
         },
         "mcc1": {
-            "title": "SCHALTSCHRANK 4",
-            "description": "",
-            "type": ""
+            "prefix": "",
+            "title": "Schaltschrank 4",
+            "description": "Hocheffiziente Niederspannungs- und Energieverteilungssysteme.",
+            "type": "Energieverteilung"
         }
     }
 }

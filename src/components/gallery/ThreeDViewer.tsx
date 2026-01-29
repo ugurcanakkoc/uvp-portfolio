@@ -16,6 +16,8 @@ export function ThreeDViewer({ src, onClose, title }: ThreeDViewerProps) {
     const { t } = useTranslation();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [prefix, setPrefix] = useState<string | null>(null);
+    const [currentTitle, setCurrentTitle] = useState(title);
     const [mounted, setMounted] = useState(false);
     const [showHelp, setShowHelp] = useState(false);
     const [autoRotate, setAutoRotate] = useState(false); // Default to false (stable)
@@ -72,6 +74,14 @@ export function ThreeDViewer({ src, onClose, title }: ThreeDViewerProps) {
         viewer.addEventListener('load', handleLoad);
         viewer.addEventListener('error', handleError);
 
+        // Initialize title and prefix based on translations
+        const projectData = Object.entries(t.projects as any).find(([id, data]: any) => data.title === title || id === title);
+        if (projectData) {
+            const [_, data]: [string, any] = projectData;
+            setPrefix(data.prefix);
+            setCurrentTitle(data.title);
+        }
+
         return () => {
             window.removeEventListener("keydown", handleKeyDown);
             if (viewer) {
@@ -79,7 +89,7 @@ export function ThreeDViewer({ src, onClose, title }: ThreeDViewerProps) {
                 viewer.removeEventListener('error', handleError);
             }
         };
-    }, [src, t.common.brand, t.viewer.error, onClose, mounted]);
+    }, [src, t.common.brand, t.viewer.error, onClose, mounted, title, t.projects]);
 
     if (!mounted) return null;
 
@@ -93,11 +103,10 @@ export function ThreeDViewer({ src, onClose, title }: ThreeDViewerProps) {
             {/* Header Area Inside the Window */}
             <div className="absolute top-0 left-0 right-0 z-[100] bg-black/60 border-b border-white/10 backdrop-blur-xl md:px-10 px-6 py-6 flex items-center justify-between">
                 <div className="flex flex-col">
-                    <div className="flex items-center gap-3">
-                        <Box size={14} className="text-blue-500" />
-                        <span className="text-blue-500 font-black text-[10px] uppercase tracking-[0.4em]">{t.viewer.title}</span>
-                    </div>
-                    <h4 className="text-white font-black text-xl md:text-2xl tracking-tighter uppercase mt-1">{title}</h4>
+                    {prefix && (
+                        <span className="text-blue-500 font-black text-[9px] uppercase tracking-[0.4em] mb-0.5 opacity-80">{prefix}</span>
+                    )}
+                    <h4 className="text-white font-black text-xl md:text-2xl tracking-tighter uppercase leading-tight">{currentTitle}</h4>
                 </div>
 
                 <div className="flex items-center gap-6">

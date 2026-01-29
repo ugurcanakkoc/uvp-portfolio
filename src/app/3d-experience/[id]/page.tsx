@@ -5,19 +5,24 @@ import { projects } from "@/data/projects";
 import dynamic from "next/dynamic";
 import { X, ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { useTranslation } from "@/lib/i18n";
 
 // Dynamically load the 3D viewer to avoid SSR issues with Three.js
 const RoomViewer = dynamic(() => import("@/components/gallery/RoomViewer"), {
     ssr: false,
-    loading: () => (
-        <div className="w-full h-screen bg-[#050505] flex flex-col items-center justify-center text-white gap-4">
-            <div className="w-16 h-16 border-4 border-blue-600/30 border-t-blue-600 rounded-full animate-spin" />
-            <p className="text-blue-400 font-medium animate-pulse uppercase tracking-widest text-xs">Simulation wird vorbereitet...</p>
-        </div>
-    )
+    loading: () => {
+        const { t } = useTranslation();
+        return (
+            <div className="w-full h-screen bg-[#050505] flex flex-col items-center justify-center text-white gap-4">
+                <div className="w-16 h-16 border-4 border-blue-600/30 border-t-blue-600 rounded-full animate-spin" />
+                <p className="text-blue-400 font-medium animate-pulse uppercase tracking-widest text-xs">{t.viewer.simulationLoading || "Simulation wird vorbereitet..."}</p>
+            </div>
+        );
+    }
 });
 
 export default function ThreeDExperiencePage() {
+    const { t } = useTranslation();
     const params = useParams();
     const router = useRouter();
     const id = params.id as string;
@@ -28,8 +33,8 @@ export default function ThreeDExperiencePage() {
         return (
             <div className="min-h-screen bg-slate-900 flex items-center justify-center text-white">
                 <div className="text-center">
-                    <h1 className="text-2xl font-bold mb-4">Modell nicht gefunden</h1>
-                    <Link href="/" className="text-blue-400 hover:underline">Zurück zum Dashboard</Link>
+                    <h1 className="text-2xl font-bold mb-4">{t.viewer.modelNotFound}</h1>
+                    <Link href="/" className="text-blue-400 hover:underline">{t.viewer.backToDashboard}</Link>
                 </div>
             </div>
         );
@@ -45,16 +50,21 @@ export default function ThreeDExperiencePage() {
                         className="flex items-center gap-2 text-white/60 hover:text-white transition-colors group mb-2"
                     >
                         <ArrowLeft size={18} className="transition-transform group-hover:-translate-x-1" />
-                        <span className="text-sm font-medium">Zurück</span>
+                        <span className="text-sm font-medium">{t.viewer.back}</span>
                     </button>
-                    <h1 className="text-xl font-bold text-white uppercase tracking-tight">{project.title}</h1>
-                    <p className="text-xs text-white/40 tracking-wider">WALKTHROUGH EXPERIENCE</p>
+                    {((t.projects as any)[id] as any)?.prefix && (
+                        <span className="text-[10px] font-black tracking-[0.2em] text-blue-500 uppercase mb-1">
+                            {((t.projects as any)[id] as any).prefix}
+                        </span>
+                    )}
+                    <h1 className="text-xl font-bold text-white uppercase tracking-tight">{(t.projects as any)[id]?.title || project.title}</h1>
+                    <p className="text-xs text-white/40 tracking-wider font-medium opacity-50">WALKTHROUGH EXPERIENCE</p>
                 </div>
 
                 <button
                     onClick={() => router.back()}
                     className="p-3 bg-white/5 hover:bg-white/10 text-white rounded-full transition-all pointer-events-auto border border-white/10"
-                    title="Beenden"
+                    title={t.viewer.exit}
                 >
                     <X size={24} />
                 </button>
@@ -73,12 +83,12 @@ export default function ThreeDExperiencePage() {
                             <span className="w-6 h-6 bg-white/10 rounded flex items-center justify-center text-[10px] text-white/80 border border-white/10 font-mono">S</span>
                             <span className="w-6 h-6 bg-white/10 rounded flex items-center justify-center text-[10px] text-white/80 border border-white/10 font-mono">D</span>
                         </div>
-                        <span className="text-[10px] text-white/40 uppercase font-bold tracking-tighter">Bewegen</span>
+                        <span className="text-[10px] text-white/40 uppercase font-bold tracking-tighter">{t.viewer.controls.move}</span>
                     </div>
                     <div className="w-px h-4 bg-white/10" />
                     <div className="flex items-center gap-3 text-white/40 uppercase font-bold tracking-tighter text-[10px]">
                         <div className="w-10 h-6 bg-white/10 rounded border border-white/10 flex items-center justify-center font-mono">ESC</div>
-                        <span>Abbrechen</span>
+                        <span>{t.viewer.exit}</span>
                     </div>
                 </div>
             </div>
